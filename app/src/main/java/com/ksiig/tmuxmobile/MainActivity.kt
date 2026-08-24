@@ -38,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         binding.fabUpdate.setOnClickListener {
             UpdateManager(this).checkAndInstall()
         }
+        binding.fabUpdate.setOnLongClickListener {
+            promptForUrl(prefill = serverUrl)
+            true
+        }
 
         serverUrl = savedInstanceState?.getString(KEY_SERVER_URL)
             ?: loadServerUrl()
@@ -91,13 +95,13 @@ class MainActivity : AppCompatActivity() {
 
     private var isPromptPending = false
 
-    private fun promptForUrl() {
+    private fun promptForUrl(prefill: String? = null) {
         if (supportFragmentManager.isStateSaved) {
             isPromptPending = true
             return
         }
         if (supportFragmentManager.findFragmentByTag(TAG_SERVER_URL) != null) return
-        ServerUrlDialog().show(supportFragmentManager, TAG_SERVER_URL)
+        ServerUrlDialog.newInstance(prefill).show(supportFragmentManager, TAG_SERVER_URL)
     }
 
     override fun onResumeFragments() {
