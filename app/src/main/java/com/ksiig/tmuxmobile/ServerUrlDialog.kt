@@ -2,15 +2,14 @@ package com.ksiig.tmuxmobile
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class ServerUrlDialog(
-    private val onConnect: (String) -> Unit
-) : DialogFragment() {
+class ServerUrlDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val layout = TextInputLayout(requireContext()).apply {
@@ -36,9 +35,14 @@ class ServerUrlDialog(
                 } else {
                     url
                 }
-                onConnect(normalized)
+                setFragmentResult(REQUEST_KEY, bundleOf(RESULT_URL to normalized))
             }
             .setCancelable(false)
             .create()
+    }
+
+    companion object {
+        const val REQUEST_KEY = "server_url_request"
+        const val RESULT_URL = "url"
     }
 }

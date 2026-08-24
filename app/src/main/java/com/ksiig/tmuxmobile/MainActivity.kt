@@ -25,6 +25,14 @@ class MainActivity : AppCompatActivity() {
         webView = binding.webView
         configureWebView()
 
+        supportFragmentManager.setFragmentResultListener(
+            ServerUrlDialog.REQUEST_KEY, this
+        ) { _, bundle ->
+            val url = bundle.getString(ServerUrlDialog.RESULT_URL) ?: return@setFragmentResultListener
+            serverUrl = url
+            webView.loadUrl(url)
+        }
+
         serverUrl = savedInstanceState?.getString(KEY_SERVER_URL)
         if (serverUrl != null) {
             webView.loadUrl(serverUrl!!)
@@ -39,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             domStorageEnabled = true
             databaseEnabled = true
             mediaPlaybackRequiresUserGesture = false
-            mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
             cacheMode = WebSettings.LOAD_DEFAULT
         }
 
@@ -50,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.error_load_failed, errorMessage),
                     Toast.LENGTH_LONG
                 ).show()
+                promptForUrl()
             }
         }
 
@@ -57,11 +66,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun promptForUrl() {
-        val dialog = ServerUrlDialog { url ->
-            serverUrl = url
-            webView.loadUrl(url)
-        }
-        dialog.show(supportFragmentManager, "server_url")
+        if (supportFragmentManager.findFragmentByTag(TAG_SERVER_URL) != null) return
+        ServerUrlDialog().show(supportFragmentManager, TAG_SERVER_URL)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -79,5 +85,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val KEY_SERVER_URL = "server_url"
+        private const val TAG_SERVER_URL = "server_url"
     }
 }

@@ -32,7 +32,7 @@ The APK is at `app/build/outputs/apk/debug/app-debug.apk`.
 
 ## Project structure
 
-```
+```text
 app/src/main/java/com/ksiig/tmuxmobile/
 ├── MainActivity.kt       # WebView setup, URL prompt, lifecycle
 ├── TmuxWebViewClient.kt  # URL filtering, error handling

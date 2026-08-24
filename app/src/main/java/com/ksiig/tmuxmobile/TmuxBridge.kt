@@ -11,6 +11,8 @@ class TmuxBridge(private val context: Context) {
 
     @JavascriptInterface
     fun vibrate(durationMs: Long) {
+        if (durationMs <= 0) return
+
         val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val manager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             manager.defaultVibrator

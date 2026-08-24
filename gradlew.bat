@@ -65,6 +65,9 @@ echo location of your Java installation. 1>&2
 
 goto fail
 
+:fail
+exit /b 1
+
 :execute
 @rem Setup the command line
 
