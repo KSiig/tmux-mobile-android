@@ -5,4 +5,5 @@
     <string name="connect">Connect</string>
     <string name="error_no_url">Enter a server URL</string>
     <string name="error_load_failed">Failed to load: %1$s</string>
+    <string name="check_update">Check for updates</string>
 </resources>

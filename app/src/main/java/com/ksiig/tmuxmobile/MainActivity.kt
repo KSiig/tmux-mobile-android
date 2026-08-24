@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             webView.loadUrl(url)
         }
 
+        binding.fabUpdate.setOnClickListener {
+            UpdateManager(this).checkAndInstall()
+        }
+
         serverUrl = savedInstanceState?.getString(KEY_SERVER_URL)
             ?: loadServerUrl()
 
