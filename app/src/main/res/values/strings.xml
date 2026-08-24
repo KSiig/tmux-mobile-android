@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">tmux mobile</string>
+    <string name="server_url_hint">Server URL (e.g. https://your-tunnel.trycloudflare.com)</string>
+    <string name="connect">Connect</string>
+    <string name="error_no_url">Enter a server URL</string>
+    <string name="error_load_failed">Failed to load: %1$s</string>
+</resources>

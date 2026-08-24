@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="terminal_bg">#1e1e2e</color>
+    <color name="terminal_fg">#cdd6f4</color>
+    <color name="accent">#89b4fa</color>
+    <color name="surface">#313244</color>
+</resources>
