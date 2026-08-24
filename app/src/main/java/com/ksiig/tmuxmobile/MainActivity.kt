@@ -65,9 +65,23 @@ class MainActivity : AppCompatActivity() {
         webView.addJavascriptInterface(TmuxBridge(this), "TmuxMobileAndroid")
     }
 
+    private var isPromptPending = false
+
     private fun promptForUrl() {
+        if (supportFragmentManager.isStateSaved) {
+            isPromptPending = true
+            return
+        }
         if (supportFragmentManager.findFragmentByTag(TAG_SERVER_URL) != null) return
         ServerUrlDialog().show(supportFragmentManager, TAG_SERVER_URL)
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        if (isPromptPending) {
+            isPromptPending = false
+            promptForUrl()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
