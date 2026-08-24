@@ -49,7 +49,11 @@ class MainActivity : AppCompatActivity() {
             mediaPlaybackRequiresUserGesture = false
             mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
             cacheMode = WebSettings.LOAD_DEFAULT
+            useWideViewPort = true
+            loadWithOverviewMode = true
         }
+
+        webView.setInitialScale(1)
 
         webView.webViewClient = TmuxWebViewClient { errorMessage ->
             runOnUiThread {
