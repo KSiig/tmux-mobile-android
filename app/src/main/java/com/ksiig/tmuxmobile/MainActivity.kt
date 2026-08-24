@@ -7,6 +7,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.ksiig.tmuxmobile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +31,13 @@ class MainActivity : AppCompatActivity() {
         ) { _, bundle ->
             val url = bundle.getString(ServerUrlDialog.RESULT_URL) ?: return@setFragmentResultListener
             serverUrl = url
+            saveServerUrl(url)
             webView.loadUrl(url)
         }
 
         serverUrl = savedInstanceState?.getString(KEY_SERVER_URL)
+            ?: loadServerUrl()
+
         if (serverUrl != null) {
             webView.loadUrl(serverUrl!!)
         } else {
@@ -67,6 +71,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         webView.addJavascriptInterface(TmuxBridge(this), "TmuxMobileAndroid")
+    }
+
+    private fun saveServerUrl(url: String) {
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .edit()
+            .putString(PREF_SERVER_URL, url)
+            .apply()
+    }
+
+    private fun loadServerUrl(): String? {
+        return PreferenceManager.getDefaultSharedPreferences(this)
+            .getString(PREF_SERVER_URL, null)
     }
 
     private var isPromptPending = false
@@ -104,5 +120,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val KEY_SERVER_URL = "server_url"
         private const val TAG_SERVER_URL = "server_url"
+        private const val PREF_SERVER_URL = "server_url"
     }
 }

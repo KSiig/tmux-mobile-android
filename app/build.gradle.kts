@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.webkit)
+    implementation(libs.androidx.preference.ktx)
     implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
