@@ -23,6 +23,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Decode debug keystore
+        run: |
+          echo "${{ secrets.DEBUG_KEYSTORE }}" | base64 -d > $RUNNER_TEMP/debug.p12
+          echo "DEBUG_KEYSTORE_PATH=$RUNNER_TEMP/debug.p12" >> $GITHUB_ENV
+          echo "DEBUG_KEYSTORE_PASSWORD=${{ secrets.DEBUG_KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
 
@@ -58,13 +64,24 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Decode debug keystore
+        run: |
+          echo "${{ secrets.DEBUG_KEYSTORE }}" | base64 -d > $RUNNER_TEMP/debug.p12
+          echo "DEBUG_KEYSTORE_PATH=$RUNNER_TEMP/debug.p12" >> $GITHUB_ENV
+          echo "DEBUG_KEYSTORE_PASSWORD=${{ secrets.DEBUG_KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
 
       - name: Build release APK
         run: ./gradlew assembleRelease
 
-      - name: Upload release APK to GitHub Release
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload APKs to GitHub Release
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
-          files: app/build/outputs/apk/release/*.apk
+          files: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/debug/*.apk
