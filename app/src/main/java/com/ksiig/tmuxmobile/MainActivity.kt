@@ -78,6 +78,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        webView.webChromeClient = TmuxWebChromeClient(this)
+
         webView.addJavascriptInterface(TmuxBridge(this), "TmuxMobileAndroid")
     }
 
