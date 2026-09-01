@@ -15,12 +15,12 @@ gradle.taskGraph.whenReady {
 
 android {
     namespace = "com.ksiig.tmuxmobile"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ksiig.tmuxmobile"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 8
         versionName = "0.4.3"
 
