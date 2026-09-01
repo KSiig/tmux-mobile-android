@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    SII-54: data_extraction_rules.xml (API 31+).
+
+    server_url (in com.ksiig.tmuxmobile_preferences.xml) is included
+    deliberately so it survives reinstall; it must NOT be removed.
+
+    The root and database entries below are currently INERT because
+    the only <include> is "sharedpref". They are forward-proofing so
+    widening the include set later cannot silently start backing up
+    cookies, WebView data, or credentials.db.
+-->
 <data-extraction-rules>
     <cloud-backup>
         <include domain="sharedpref" path="." />
+        <exclude domain="sharedpref" path="tmux_mobile_secure.xml" />
+        <exclude domain="root" path="app_webview/Cookies" />
+        <exclude domain="root" path="app_webview/Default/Cookies" />
+        <exclude domain="database" path="credentials.db" />
     </cloud-backup>
     <device-transfer>
         <include domain="sharedpref" path="." />
+        <exclude domain="sharedpref" path="tmux_mobile_secure.xml" />
+        <exclude domain="root" path="app_webview/Cookies" />
+        <exclude domain="root" path="app_webview/Default/Cookies" />
+        <exclude domain="database" path="credentials.db" />
     </device-transfer>
 </data-extraction-rules>
