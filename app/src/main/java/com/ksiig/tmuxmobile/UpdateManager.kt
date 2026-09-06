@@ -21,6 +21,13 @@ class UpdateManager(private val activity: Activity) {
                 val localVersion = activity.packageManager
                     .getPackageInfo(activity.packageName, 0).versionName ?: "0.0.0"
 
+                if (!remoteVersion.matches(Regex("^\\d+\\.\\d+\\.\\d+$"))) {
+                    activity.runOnUiThread {
+                        Toast.makeText(activity, "Already on latest ($localVersion)", Toast.LENGTH_SHORT).show()
+                    }
+                    return@Thread
+                }
+
                 if (!isNewer(remoteVersion, localVersion)) {
                     activity.runOnUiThread {
                         Toast.makeText(activity, "Already on latest ($localVersion)", Toast.LENGTH_SHORT).show()
@@ -32,7 +39,7 @@ class UpdateManager(private val activity: Activity) {
                 var downloadUrl: String? = null
                 for (i in 0 until assets.length()) {
                     val asset = assets.getJSONObject(i)
-                    if (asset.getString("name") == "app-debug.apk") {
+                    if (asset.getString("name") == BuildConfig.UPDATE_ASSET_NAME) {
                         downloadUrl = asset.getString("browser_download_url")
                         break
                     }
@@ -40,7 +47,11 @@ class UpdateManager(private val activity: Activity) {
 
                 if (downloadUrl == null) {
                     activity.runOnUiThread {
-                        Toast.makeText(activity, "No debug APK in release $remoteVersion", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "No ${BuildConfig.UPDATE_ASSET_NAME} in release $remoteVersion",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     return@Thread
                 }

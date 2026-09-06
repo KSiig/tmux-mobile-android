@@ -52,6 +52,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "UPDATE_ASSET_NAME", "\"app-debug.apk\"")
+        }
         release {
             isMinifyEnabled = true                                  // keep
             isShrinkResources = true                                // keep
@@ -60,6 +63,7 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")     // add
+            buildConfigField("String", "UPDATE_ASSET_NAME", "\"app-release.apk\"")
         }
     }
 
@@ -74,6 +78,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
