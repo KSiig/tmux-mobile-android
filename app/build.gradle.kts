@@ -80,6 +80,17 @@ android {
         viewBinding = true
         buildConfig = true
     }
+
+    // Disable FullBackupContent lint. The SII-54 backup XML files
+    // (backup_rules.xml, data_extraction_rules.xml) deliberately declare
+    // <exclude>s for paths that are not under any <include> today — the only
+    // include is `sharedpref` (server_url persistence), so the root/database
+    // excludes are inert. They exist so widening the include set later cannot
+    // silently start backing up credentials. Lint's FullBackupContent rule
+    // flags them anyway.
+    lint {
+        disable.add("FullBackupContent")
+    }
 }
 
 dependencies {
